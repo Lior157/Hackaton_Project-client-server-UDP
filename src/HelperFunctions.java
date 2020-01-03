@@ -3,7 +3,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HelperFunctions {
-    public String hash(String toHash) {
+    public static String hash(String toHash) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
             byte[] messageDigest = md.digest(toHash.getBytes());
@@ -19,7 +19,7 @@ public class HelperFunctions {
         }
     }
 
-    private String tryDeHash(String startRange, String endRange, String originalHash){
+    private static String tryDeHash(String startRange, String endRange, String originalHash){
         int start = convertStringToInt(startRange);
         int end = convertStringToInt(endRange);
         int length = startRange.length();
@@ -33,7 +33,7 @@ public class HelperFunctions {
         return null;
     }
 
-    private int convertStringToInt(String toConvert) {
+    private static int convertStringToInt(String toConvert) {
         char[] charArray = toConvert.toCharArray();
         int num = 0;
         for(char c : charArray){
@@ -47,7 +47,7 @@ public class HelperFunctions {
     }
 
 
-    private String converxtIntToString(int toConvert, int length) {
+    private  static String converxtIntToString(int toConvert, int length) {
         StringBuilder s = new StringBuilder(length);
         while (toConvert > 0 ){
             int c = toConvert % 26;
@@ -62,7 +62,7 @@ public class HelperFunctions {
         return s.toString();
     }
 
-    public String [] divideToDomains (int stringLength, int numOfServers){
+    public  static String [] divideToDomains (int stringLength, int numOfServers){
         String [] domains = new String[numOfServers * 2];
 
         StringBuilder first = new StringBuilder(); //aaa
@@ -88,5 +88,16 @@ public class HelperFunctions {
         }
 
         return domains;
+    }
+
+    public static void main(String[] args) {
+       String h = hash("viper");
+        System.out.println(h);
+       // System.out.println(tryDeHash("vaaaa", "vzzzz", h));
+
+        String [] domains = divideToDomains(5, 2);
+        for (String s : domains){
+            System.out.println(s);
+        }
     }
 }
