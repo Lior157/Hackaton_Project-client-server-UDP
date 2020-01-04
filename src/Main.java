@@ -14,7 +14,9 @@ public class Main {
         System.out.println(MessageInterpreter.getType(bytes));
         System.out.println(MessageInterpreter.getOriginalStrStart(bytes));
         System.out.println(MessageInterpreter.getOriginalStrEnd(bytes));
+        System.out.println(MessageInterpreter.getHash(bytes));
         System.out.println(MessageInterpreter.getTeamName(bytes));
+
 
     }
 }

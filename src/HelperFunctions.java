@@ -19,7 +19,7 @@ public class HelperFunctions {
         }
     }
 
-    private static String tryDeHash(String startRange, String endRange, String originalHash){
+    public static String tryDeHash(String startRange, String endRange, String originalHash){
         int start = convertStringToInt(startRange);
         int end = convertStringToInt(endRange);
         int length = startRange.length();
