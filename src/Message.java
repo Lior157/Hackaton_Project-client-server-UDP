@@ -26,7 +26,17 @@ public class Message {
     }
 
     public void setTeamName(String name){
-        teamName = name.getBytes(StandardCharsets.UTF_8);
+        //insert spaces to get total length 32
+        StringBuilder tName = new StringBuilder(name);
+        for(int i = name.length(); i < teamName.length; i++){
+            tName.append(" ");
+        }
+
+        byte [] nameBytes = tName.toString().getBytes(StandardCharsets.UTF_8);
+        for(int i = 0; i< nameBytes.length; i++){
+            teamName[i] = nameBytes[i];
+        }
+
     }
 
 
