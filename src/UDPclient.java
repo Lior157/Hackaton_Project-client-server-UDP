@@ -38,13 +38,18 @@ public class UDPclient {
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis()-startTime < 1000 || recievedPockets.size()==0) {
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            if((byte) 2  == MessageInterpreter.getType(receivePacket.getData())) {
-                System.out.println("offer recieved");
-                recievedPockets.add(receivePacket);
-            }
-        }
+            try {
+                clientSocket.setSoTimeout(30);
+                clientSocket.receive(receivePacket);
 
+
+                if((byte) 2  == MessageInterpreter.getType(receivePacket.getData())) {
+                    System.out.println("offer recieved");
+                    recievedPockets.add(receivePacket);
+                }
+            }catch (Exception e){}
+        }
+        clientSocket.setSoTimeout(700);
         String [] domains = HelperFunctions.divideToDomains(lengthInput, recievedPockets.size());
         for (String s : domains){
             System.out.println(s);
@@ -54,7 +59,10 @@ public class UDPclient {
         for (DatagramPacket dp:
              recievedPockets) {
             InetAddress IPAddressDp = dp.getAddress();
+            System.out.println(IPAddressDp);
             int port = dp.getPort() ;
+            System.out.println("port:"+port);
+            System.out.println("end:"+domains[domain+1]);
             Message message = sendRequest(domains[domain],domains[domain+1]);
             byte[] messageBytes = message.tobyteArray();
             DatagramPacket sendPacketRequst = new DatagramPacket(messageBytes, messageBytes.length, IPAddressDp, port);
