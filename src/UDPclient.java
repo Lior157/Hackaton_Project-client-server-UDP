@@ -32,7 +32,7 @@ public class UDPclient {
         System.out.println(IPAddress);
 
         byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
-        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 9876);
+        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 9877);
         clientSocket.send(sendPacket);
 
         long startTime = System.currentTimeMillis();
@@ -49,7 +49,7 @@ public class UDPclient {
                 }
             }catch (Exception e){}
         }
-        clientSocket.setSoTimeout(700);
+        clientSocket.setSoTimeout(70000);
         String [] domains = HelperFunctions.divideToDomains(lengthInput, recievedPockets.size());
         for (String s : domains){
             System.out.println(s);
@@ -70,12 +70,17 @@ public class UDPclient {
             domain = domain + 2;
         }
 
-        while (true){
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            if((byte) 5  == MessageInterpreter.getType(receivePacket.getData())) {
-                System.out.println(MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
-            }
+        boolean recieved = false;
+        while (!recieved){
+            try {
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                clientSocket.receive(receivePacket);
+                System.out.println("recived");
+                if ((byte) 4 == MessageInterpreter.getType(receivePacket.getData())) {
+                    System.out.println(MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
+                    recieved = true;
+                }
+            }catch (Exception e){} ;
         }
 
 

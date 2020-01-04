@@ -33,7 +33,9 @@ public class ServerMessageProc implements Runnable{
         String end = MessageInterpreter.getOriginalStrEnd(dataRecieved);
         byte length = MessageInterpreter.getOriginalLength(dataRecieved);
         String message = MessageInterpreter.getHash(dataRecieved);
+        System.out.println("startingFindString..");
         String returnString = HelperFunctions.tryDeHash(start,end,message);
+        System.out.println(returnString);
 
         Message msg = new Message();
         msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
