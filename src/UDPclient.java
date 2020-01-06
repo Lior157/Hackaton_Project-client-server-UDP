@@ -17,26 +17,37 @@ public class UDPclient {
         DatagramSocket clientSocket = new DatagramSocket();
         hashInput = "a346f3083515cbc8ca18aae24f331dee2d23454b" ;
         lengthInput = (byte)5 ;
-//        System.out.println("Welcome to "+TeamName+". Please enter the hash:");
-//        BufferedReader hashFromUser =
-//                new BufferedReader(new InputStreamReader(System.in));
-//        hashInput = hashFromUser.readLine();
-//
-//        System.out.println("Please enter the input string length:");
-//        BufferedReader lengthFromUser =
-//                new BufferedReader(new InputStreamReader(System.in));
-//        lengthInput = (byte) Integer.parseInt(lengthFromUser.readLine());
+ /*       System.out.println("Welcome to "+TeamName+". Please enter the hash:");
+        BufferedReader hashFromUser =
+                new BufferedReader(new InputStreamReader(System.in));
+        hashInput = hashFromUser.readLine();
 
-      //  InetAddress IPAddress = InetAddress.getByName("localhost");
+       System.out.println("Please enter the input string length:");
+        BufferedReader lengthFromUser =
+                new BufferedReader(new InputStreamReader(System.in));
+        lengthInput = (byte) Integer.parseInt(lengthFromUser.readLine());*/
+
+
+        byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
+
+        InetAddress IPAddressL = InetAddress.getByName("localhost");
+        DatagramPacket sendPacket2 = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddressL, 3117);
+        clientSocket.setBroadcast(true);
+        clientSocket.send(sendPacket2);
+
         InetAddress IPAddress = InetAddress.getByName("255.255.255.255");
         System.out.println(IPAddress);
 
-        byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
-        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
-       // clientSocket.setBroadcast(true); already true
+     //   DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
+     //   DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
+
+        InetAddress ServerAddress = InetAddress.getByName("192.168.43.230");
+        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, ServerAddress, 3117);
+
+       clientSocket.setBroadcast(true);
         clientSocket.send(sendPacket);
 
-        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+     /*   Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
         while (interfaces.hasMoreElements()) {
             NetworkInterface networkInterface = (NetworkInterface)interfaces.nextElement();
 
@@ -52,13 +63,13 @@ public class UDPclient {
 
                 // Send the broadcast package!
                 try {
-                    DatagramPacket sendPacket1 = new DatagramPacket(sendData, sendData.length, broadcast, 8888);
-                    clientSocket.send(sendPacket1);
+                   // DatagramPacket sendPacket1 = new DatagramPacket(sendData, sendData.length, broadcast, 8888);
+                    clientSocket.send(sendPacket);
                 } catch (Exception e) {
                 }
 
             }
-        }
+        }*/
 
 
         long startTime = System.currentTimeMillis();
@@ -96,21 +107,38 @@ public class UDPclient {
             domain = domain + 2;
         }
 
+        int numOfServersConnected = recievedPockets.size();
+        int counterNaks = 0;
+
         boolean recieved = false;
-        while (!recieved){
+         startTime = System.currentTimeMillis();
+
+        while (!recieved && System.currentTimeMillis()-startTime < 15000 && counterNaks < numOfServersConnected){
             try {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                clientSocket.setSoTimeout(3000);
                 clientSocket.receive(receivePacket);
                 System.out.println("recived");
+               // System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
+
                 if ((byte) 4 == MessageInterpreter.getType(receivePacket.getData())) {
-                    System.out.println(MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
+                    System.out.println("the correct string for the hash is "+MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
                     recieved = true;
+                }
+
+                if ((byte) 5 == MessageInterpreter.getType(receivePacket.getData())) { //nak
+                    counterNaks ++;
+                    System.out.println("got nak");
                 }
             }catch (Exception e){} ;
         }
 
+        if(!recieved || counterNaks == numOfServersConnected){
+            System.out.println("could not find the correct string for the hash.");
+        }
 
-
+     //   System.out.println("num of connected servers: "+numOfServersConnected);
+   //     System.out.println("num of naks recieved: " + counterNaks);
 
 
      //   sendData = sentence.getBytes();

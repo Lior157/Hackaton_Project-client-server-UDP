@@ -12,49 +12,59 @@ public class ServerMessageProc implements Runnable{
     }
 
     private DatagramPacket DiscoverRecieved(){
-        InetAddress IPAddress = receivePacket.getAddress();
-        int port = receivePacket.getPort();
+        try {
+            InetAddress IPAddress = receivePacket.getAddress();
+            int port = receivePacket.getPort();
 
-        Message msg = new Message();
-        msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
-        msg.setType((byte)2);
+            Message msg = new Message();
+            msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
+            msg.setType((byte) 2);
 
-        byte[] data = msg.tobyteArray();
-        DatagramPacket sendPacket =
-                new DatagramPacket(data, data.length, IPAddress, port);
-        return sendPacket;
+            byte[] data = msg.tobyteArray();
+            DatagramPacket sendPacket =
+                    new DatagramPacket(data, data.length, IPAddress, port);
+            return sendPacket;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
     private DatagramPacket RequestRecieved(){
-        InetAddress IPAddress = receivePacket.getAddress();
-        int port = receivePacket.getPort();
+        try {
+            InetAddress IPAddress = receivePacket.getAddress();
+            int port = receivePacket.getPort();
 
-        byte[] dataRecieved = receivePacket.getData();
-        String start =MessageInterpreter.getOriginalStrStart(dataRecieved);
-        String end = MessageInterpreter.getOriginalStrEnd(dataRecieved);
-        byte length = MessageInterpreter.getOriginalLength(dataRecieved);
-        String message = MessageInterpreter.getHash(dataRecieved);
-        System.out.println("startingFindString..");
-        String returnString = HelperFunctions.tryDeHash(start,end,message);
-        System.out.println(returnString);
+            byte[] dataRecieved = receivePacket.getData();
+            String start = MessageInterpreter.getOriginalStrStart(dataRecieved);
+            String end = MessageInterpreter.getOriginalStrEnd(dataRecieved);
+            byte length = MessageInterpreter.getOriginalLength(dataRecieved);
+            String message = MessageInterpreter.getHash(dataRecieved);
+            System.out.println("startingFindString..");
+            String returnString = HelperFunctions.tryDeHash(start, end, message);
+            System.out.println(returnString);
 
-        Message msg = new Message();
-        msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
-        msg.setOriginalLength(length);
-        if(returnString != null) {
-            msg.setType((byte) 4);
-            msg.setOriginalStrStart(returnString);
-            msg.setOriginalStrEnd(returnString);
-        }else{
-            msg.setType((byte) 5);
-            msg.setOriginalStrStart(start);
-            msg.setOriginalStrEnd(end);
+            Message msg = new Message();
+            msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
+            msg.setOriginalLength(length);
+            if (returnString != null) {
+                msg.setType((byte) 4);
+                msg.setOriginalStrStart(returnString);
+                msg.setOriginalStrEnd(returnString);
+            } else {
+                msg.setType((byte) 5);
+                msg.setOriginalStrStart(start);
+                msg.setOriginalStrEnd(end);
+            }
+
+
+            byte[] data = msg.tobyteArray();
+            DatagramPacket sendPacket =
+                    new DatagramPacket(data, data.length, IPAddress, port);
+            return sendPacket;
         }
-
-
-        byte[] data = msg.tobyteArray();
-        DatagramPacket sendPacket =
-                new DatagramPacket(data, data.length, IPAddress, port);
-        return sendPacket;
+        catch (Exception e){
+            return null;
+        }
     }
     @Override
     public void run() {
