@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
+import java.net.*;
+import java.util.Enumeration;
 import java.util.LinkedList;
 
 public class UDPclient {
@@ -34,7 +33,33 @@ public class UDPclient {
 
         byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
         DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
+       // clientSocket.setBroadcast(true); already true
         clientSocket.send(sendPacket);
+
+        Enumeration interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = (NetworkInterface)interfaces.nextElement();
+
+            if (networkInterface.isLoopback() || !networkInterface.isUp()) {
+                continue; // Don't want to broadcast to the loopback interface
+            }
+
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                InetAddress broadcast = interfaceAddress.getBroadcast();
+                if (broadcast == null) {
+                    continue;
+                }
+
+                // Send the broadcast package!
+                try {
+                    DatagramPacket sendPacket1 = new DatagramPacket(sendData, sendData.length, broadcast, 8888);
+                    clientSocket.send(sendPacket1);
+                } catch (Exception e) {
+                }
+
+            }
+        }
+
 
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis()-startTime < 1000 || recievedPockets.size()==0) {
@@ -50,7 +75,7 @@ public class UDPclient {
                 }
             }catch (Exception e){}
         }
-        clientSocket.setSoTimeout(70000);
+        clientSocket.setSoTimeout(10000);
         String [] domains = HelperFunctions.divideToDomains(lengthInput, recievedPockets.size());
         for (String s : domains){
             System.out.println(s);
