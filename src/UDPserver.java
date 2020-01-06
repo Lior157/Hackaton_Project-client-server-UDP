@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 public class UDPserver {
     public static void main(String args[]) throws Exception
     {
-        DatagramSocket serverSocket = new DatagramSocket(9877);
+        DatagramSocket serverSocket = new DatagramSocket(3117);
         byte[] receiveData = new byte[1024];
         byte[] sendData = new byte[1024];
         ExecutorService tpex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());

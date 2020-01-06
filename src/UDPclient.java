@@ -28,11 +28,12 @@ public class UDPclient {
 //                new BufferedReader(new InputStreamReader(System.in));
 //        lengthInput = (byte) Integer.parseInt(lengthFromUser.readLine());
 
-        InetAddress IPAddress = InetAddress.getByName("localhost");
+      //  InetAddress IPAddress = InetAddress.getByName("localhost");
+        InetAddress IPAddress = InetAddress.getByName("255.255.255.255");
         System.out.println(IPAddress);
 
         byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
-        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 9877);
+        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
         clientSocket.send(sendPacket);
 
         long startTime = System.currentTimeMillis();
