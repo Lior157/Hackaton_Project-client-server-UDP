@@ -9,6 +9,7 @@ public class UDPclient {
     private static String hashInput ;
     private static byte lengthInput ;
     private static LinkedList<DatagramPacket> recievedPockets = new LinkedList<>();
+    private static final int  serverResponseTimeout = 15000;
     public static void main(String args[]) throws Exception
     {
         byte[] sendData = new byte[1024];
@@ -39,7 +40,7 @@ public class UDPclient {
         //clientSocket.send(sendPacket2);
 
         InetAddress IPAddress = InetAddress.getByName("255.255.255.255");
-        System.out.println(IPAddress);
+        //System.out.println(IPAddress);
 
      //   DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
         DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
@@ -75,8 +76,9 @@ public class UDPclient {
         }*/
 
 
+        System.out.println("sending discover messages to find servers...");
         long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis()-startTime < 1000 || recievedPockets.size()==0) {
+        while (System.currentTimeMillis()-startTime < 1000) {
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             try {
                 clientSocket.setSoTimeout(30);
@@ -89,8 +91,13 @@ public class UDPclient {
                 }
             }catch (Exception e){}
         }
-        clientSocket.setSoTimeout(10000);
+        if(recievedPockets.size()==0){
+            System.out.println("no offers from servers were received in 1 second. exiting program.");
+            System.exit(0);
+        }
+        //clientSocket.setSoTimeout(10000);
         String [] domains = HelperFunctions.divideToDomains(lengthInput, recievedPockets.size());
+        System.out.println("sending request messages to "+ recievedPockets.size() +" servers.");
         System.out.println("domains are: ");
         for (String s : domains){
             System.out.println(s);
@@ -117,7 +124,7 @@ public class UDPclient {
         boolean recieved = false;
          startTime = System.currentTimeMillis();
 
-        while (!recieved && System.currentTimeMillis()-startTime < 15000 && counterNaks < numOfServersConnected){
+        while (!recieved && System.currentTimeMillis()-startTime < serverResponseTimeout && counterNaks < numOfServersConnected){
             try {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 clientSocket.setSoTimeout(3000);
