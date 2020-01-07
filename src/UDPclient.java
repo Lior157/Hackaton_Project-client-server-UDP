@@ -16,10 +16,10 @@ public class UDPclient {
 
         DatagramSocket clientSocket = new DatagramSocket();
      //   hashInput = "a346f3083515cbc8ca18aae24f331dee2d23454b" ;//viper
-      //  hashInput = "9017347a610d1436c1aaf52764e6578e8fc1a083" ; //cyber
-        hashInput = "4ca26abfe0aef43348ebfecfff73a27201653e36"; //len 27
-        lengthInput = (byte)27 ;
-        //lengthInput = (byte)5 ;
+        hashInput = "9017347a610d1436c1aaf52764e6578e8fc1a083" ; //cyber
+      //  hashInput = "4ca26abfe0aef43348ebfecfff73a27201653e36"; //len 27
+      //  lengthInput = (byte)27 ;
+        lengthInput = (byte)5 ;
  /*       System.out.println("Welcome to "+TeamName+". Please enter the hash:");
         BufferedReader hashFromUser =
                 new BufferedReader(new InputStreamReader(System.in));
@@ -33,19 +33,19 @@ public class UDPclient {
 
         byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
 
-        InetAddress IPAddressL = InetAddress.getByName("localhost");
-        DatagramPacket sendPacket2 = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddressL, 3117);
-        clientSocket.setBroadcast(true);
-        clientSocket.send(sendPacket2);
+     //   InetAddress IPAddressL = InetAddress.getByName("localhost");
+       // DatagramPacket sendPacket2 = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddressL, 3117);
+       // clientSocket.setBroadcast(true);
+        //clientSocket.send(sendPacket2);
 
         InetAddress IPAddress = InetAddress.getByName("255.255.255.255");
         System.out.println(IPAddress);
 
      //   DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
-     //   DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
+        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, IPAddress, 3117);
 
-        InetAddress ServerAddress = InetAddress.getByName("192.168.43.230");
-        DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, ServerAddress, 3117);
+     //   InetAddress ServerAddress = InetAddress.getByName("192.168.43.230");
+      //  DatagramPacket sendPacket = new DatagramPacket(discoveredMessage, discoveredMessage.length, ServerAddress, 3117);
 
        clientSocket.setBroadcast(true);
         clientSocket.send(sendPacket);
@@ -125,7 +125,7 @@ public class UDPclient {
                // System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
 
                 if ((byte) 4 == MessageInterpreter.getType(receivePacket.getData())) {
-                    System.out.println("the correct string for the hash is "+MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
+                    System.out.println("The input string is "+MessageInterpreter.getOriginalStrStart(receivePacket.getData()));
                     recieved = true;
                 }
 
