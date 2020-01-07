@@ -5,6 +5,7 @@ import java.net.InetAddress;
 public class ServerMessageProc implements Runnable{
     private DatagramSocket serverSocket ;
     private volatile DatagramPacket receivePacket;
+    private static final int maxTimeToCalculate = 12000;
 
     public ServerMessageProc(DatagramSocket serverSocket, DatagramPacket receivePacket) {
         this.serverSocket = serverSocket;
@@ -43,7 +44,7 @@ public class ServerMessageProc implements Runnable{
             System.out.println("I need to search from "+start+ " to "+end +" for input of len "+ length);
 
             System.out.println("startingFindString..");
-            String returnString = HelperFunctions.tryDeHash(start, end, message);
+            String returnString = HelperFunctions.tryDeHash(start, end, message, maxTimeToCalculate);
             System.out.println(returnString);
             if(returnString == null){
                 System.out.println("I did not find the input, sending message to client...");

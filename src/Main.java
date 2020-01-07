@@ -14,7 +14,7 @@ public class Main {
         System.out.println(hash2);
         System.out.println(HelperFunctions.tryDeHash("somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycaaaa",
                 "somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanyzzzzzz",
-                hash2));
+                hash2, 10000));
 
         Message msg = new Message();
         msg.setTeamName("DonaldCyber"); //size 32

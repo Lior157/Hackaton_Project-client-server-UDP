@@ -19,11 +19,21 @@ public class HelperFunctions {
         }
     }
 
-    public static String tryDeHash(String startRange, String endRange, String originalHash){
+    /**
+     * try to find the input to the hash, in certain time.
+     * returns null if not found, or maxTimeToCalculate has expired
+     * @param startRange
+     * @param endRange
+     * @param originalHash
+     * @param maxTimeToCalculate in milliseconds.
+     * @return
+     */
+    public static String tryDeHash(String startRange, String endRange, String originalHash, long maxTimeToCalculate){
         BigInteger start = convertStringToInt(startRange);
         BigInteger end = convertStringToInt(endRange);
         int length = startRange.length();
-        for(BigInteger i = start; i.compareTo(end) <= 0; i = i.add(BigInteger.valueOf(1))){
+        long startTime = System.currentTimeMillis();
+        for(BigInteger i = start; i.compareTo(end) <= 0 && System.currentTimeMillis() - startTime < maxTimeToCalculate; i = i.add(BigInteger.valueOf(1))){
             String currentString = converxtIntToString(i, length);
             String hash = hash(currentString);
             if(originalHash.equals(hash)){
