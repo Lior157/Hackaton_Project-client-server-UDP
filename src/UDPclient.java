@@ -91,6 +91,7 @@ public class UDPclient {
         }
         clientSocket.setSoTimeout(10000);
         String [] domains = HelperFunctions.divideToDomains(lengthInput, recievedPockets.size());
+        System.out.println("domains are: ");
         for (String s : domains){
             System.out.println(s);
         }
@@ -99,10 +100,10 @@ public class UDPclient {
         for (DatagramPacket dp:
              recievedPockets) {
             InetAddress IPAddressDp = dp.getAddress();
-            System.out.println(IPAddressDp);
+            //System.out.println(IPAddressDp);
             int port = dp.getPort() ;
-            System.out.println("port:"+port);
-            System.out.println("end:"+domains[domain+1]);
+           // System.out.println("port:"+port);
+           // System.out.println("end:"+domains[domain+1]);
             Message message = sendRequest(domains[domain],domains[domain+1]);
             byte[] messageBytes = message.tobyteArray();
             DatagramPacket sendPacketRequst = new DatagramPacket(messageBytes, messageBytes.length, IPAddressDp, port);
@@ -121,7 +122,7 @@ public class UDPclient {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 clientSocket.setSoTimeout(3000);
                 clientSocket.receive(receivePacket);
-                System.out.println("recived");
+               // System.out.println("recived message");
                // System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
 
                 if ((byte) 4 == MessageInterpreter.getType(receivePacket.getData())) {
@@ -131,7 +132,7 @@ public class UDPclient {
 
                 if ((byte) 5 == MessageInterpreter.getType(receivePacket.getData())) { //nak
                     counterNaks ++;
-                    System.out.println("got nak");
+                  //  System.out.println("got nak");
                 }
             }catch (Exception e){} ;
         }

@@ -39,9 +39,18 @@ public class ServerMessageProc implements Runnable{
             String end = MessageInterpreter.getOriginalStrEnd(dataRecieved);
             byte length = MessageInterpreter.getOriginalLength(dataRecieved);
             String message = MessageInterpreter.getHash(dataRecieved);
+            System.out.println("I got a request from team "+ MessageInterpreter.getTeamName(dataRecieved));
+            System.out.println("I need to search from "+start+ " to "+end +" for input of len "+ length);
+
             System.out.println("startingFindString..");
             String returnString = HelperFunctions.tryDeHash(start, end, message);
             System.out.println(returnString);
+            if(returnString == null){
+                System.out.println("I did not find the input, sending message to client...");
+            }
+            else{
+                System.out.println("I found the input, sending message to client...");
+            }
 
             Message msg = new Message();
             msg.setHash(message);
@@ -61,6 +70,8 @@ public class ServerMessageProc implements Runnable{
             byte[] data = msg.tobyteArray();
             DatagramPacket sendPacket =
                     new DatagramPacket(data, data.length, IPAddress, port);
+
+            System.out.println("message sent");
             return sendPacket;
         }
         catch (Exception e){
