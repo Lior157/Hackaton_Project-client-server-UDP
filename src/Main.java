@@ -1,6 +1,20 @@
 public class Main {
     //testing
     public static void main(String[] args) {
+        String [] div = HelperFunctions.divideToDomains(230,4);
+        for(String s : div)
+            System.out.println(s);
+
+       String hash = HelperFunctions.hash("somestringwithmanymanychars"); //len 27
+       // System.out.println(hash); //4ca26abfe0aef43348ebfecfff73a27201653e36
+        //System.out.println(HelperFunctions.tryDeHash("somestringwithmanymanyaaaaa", "spazzzzzzzzzzzzzzzzzzzzzzzz", hash));
+
+        String longStr = "somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanychars";
+        String hash2 =  HelperFunctions.hash(longStr); //len 216
+        System.out.println(hash2);
+        System.out.println(HelperFunctions.tryDeHash("somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycaaaa",
+                "somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanyzzzzzz",
+                hash2));
 
         Message msg = new Message();
         msg.setTeamName("DonaldCyber"); //size 32

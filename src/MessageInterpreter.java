@@ -63,8 +63,10 @@ public class MessageInterpreter {
 
     public static String getOriginalStrEnd(byte [] msg) {
         byte [] originalStrEnd = new byte[getOriginalLength(msg)];
-        int startingIndex = 74 + getOriginalLength(msg);
-        int endingIndex = 74 + 2*getOriginalLength(msg) - 1;
+      //  int startingIndex = 74 + getOriginalLength(msg);
+        int startingIndex = 74 + 256;
+      //  int endingIndex = 74 + 2*getOriginalLength(msg) - 1;
+        int endingIndex = 74 +256 + getOriginalLength(msg) - 1;
 
         for(int i = 0; i < originalStrEnd.length; i++){
             originalStrEnd[i] = msg[i+startingIndex];

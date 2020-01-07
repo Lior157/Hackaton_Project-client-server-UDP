@@ -15,8 +15,11 @@ public class UDPclient {
         byte[] receiveData = new byte[1024];
 
         DatagramSocket clientSocket = new DatagramSocket();
-        hashInput = "a346f3083515cbc8ca18aae24f331dee2d23454b" ;
-        lengthInput = (byte)5 ;
+     //   hashInput = "a346f3083515cbc8ca18aae24f331dee2d23454b" ;//viper
+      //  hashInput = "9017347a610d1436c1aaf52764e6578e8fc1a083" ; //cyber
+        hashInput = "4ca26abfe0aef43348ebfecfff73a27201653e36"; //len 27
+        lengthInput = (byte)27 ;
+        //lengthInput = (byte)5 ;
  /*       System.out.println("Welcome to "+TeamName+". Please enter the hash:");
         BufferedReader hashFromUser =
                 new BufferedReader(new InputStreamReader(System.in));

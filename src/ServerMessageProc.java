@@ -44,8 +44,9 @@ public class ServerMessageProc implements Runnable{
             System.out.println(returnString);
 
             Message msg = new Message();
-            msg.setTeamName(MessageInterpreter.getTeamName(receivePacket.getData())); //size 32
+            msg.setHash(message);
             msg.setOriginalLength(length);
+            msg.setTeamName(MessageInterpreter.getTeamName(dataRecieved)); //size 32
             if (returnString != null) {
                 msg.setType((byte) 4);
                 msg.setOriginalStrStart(returnString);
