@@ -83,10 +83,7 @@ public class HelperFunctions {
             last.append("z"); //zzz
         }
 
-       // int total = convertStringToInt(last.toString());
         BigInteger total = convertStringToInt(last.toString());
-        //int perServer = (int) Math.floor (((double)total) /  ((double)numOfServers));
-       // BigInteger perServer = new BigInteger(BigInteger.valueOf (Math.floor (((double)total) /  ((double)numOfServers))));
         BigInteger perServer = total.divide(BigInteger.valueOf(numOfServers));
 
         domains[0] = first.toString(); //aaa
@@ -94,7 +91,7 @@ public class HelperFunctions {
         BigInteger summer = new BigInteger("0");
 
         for(int i = 1; i <= domains.length -2; i += 2){
-            summer =  summer.add(perServer);// += perServer;
+            summer =  summer.add(perServer);
             domains[i] = converxtIntToString(summer, stringLength); //end domain of server
             summer = summer.add(BigInteger.valueOf(1));//++;
             domains[i + 1] = converxtIntToString(summer, stringLength); //start domain of next server

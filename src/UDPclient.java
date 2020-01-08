@@ -17,20 +17,30 @@ public class UDPclient {
 
         DatagramSocket clientSocket = new DatagramSocket();
      //   hashInput = "a346f3083515cbc8ca18aae24f331dee2d23454b" ;//viper
-     //   hashInput = "9017347a610d1436c1aaf52764e6578e8fc1a083" ; //cyber
+       // hashInput = "9017347a610d1436c1aaf52764e6578e8fc1a083" ; //cyber
         hashInput = "4ca26abfe0aef43348ebfecfff73a27201653e36"; //len 27
         lengthInput = (byte)27 ;
-       // lengthInput = (byte)5 ;
- /*       System.out.println("Welcome to "+TeamName+". Please enter the hash:");
+     //   lengthInput = (byte)5 ;
+
+        //get inputs from user
+        System.out.println("Welcome to "+TeamName+". Please enter the hash:");
         BufferedReader hashFromUser =
                 new BufferedReader(new InputStreamReader(System.in));
         hashInput = hashFromUser.readLine();
+        while(hashInput.length() != 40){
+            System.out.println("hash is not valid (length is not 40). please enter it again:");
+            hashInput = hashFromUser.readLine();
+        }
 
        System.out.println("Please enter the input string length:");
         BufferedReader lengthFromUser =
                 new BufferedReader(new InputStreamReader(System.in));
-        lengthInput = (byte) Integer.parseInt(lengthFromUser.readLine());*/
-
+        int length = Integer.parseInt(lengthFromUser.readLine());
+        while(length <= 0 || length > 256 ){
+            System.out.println("length is not valid . please enter it again:");
+            length = Integer.parseInt(lengthFromUser.readLine());
+        }
+        lengthInput = (byte) length;
 
         byte [] discoveredMessage = DiscoveredMessage().tobyteArray() ;
 

@@ -42,6 +42,7 @@ public class MessageInterpreter {
     }
 
     public static String getOriginalStrStart(byte [] msg) {
+        //DYNAMIC
         byte [] originalStrStart = new byte[getOriginalLength(msg)];
         int startingIndex = 74;
         for(int i = 0; i < originalStrStart.length; i++){
@@ -49,20 +50,31 @@ public class MessageInterpreter {
         }
 
         return new String (originalStrStart);
-
-      /*  int startingIndex = 74;
-        int endingIndex = 74 + ((msg.length - (32+1+40+1)) / 2) -1;
-
-        byte [] originalStrStart = new byte[endingIndex - startingIndex +1];
+        //STATIC
+       /* byte [] originalStrStart = new byte[getOriginalLength(msg)];
+        int startingIndex = 74;
         for(int i = 0; i < originalStrStart.length; i++){
             originalStrStart[i] = msg[i+startingIndex];
         }
 
         return new String (originalStrStart);*/
+
+
     }
 
     public static String getOriginalStrEnd(byte [] msg) {
+        //DYNAMIC
         byte [] originalStrEnd = new byte[getOriginalLength(msg)];
+        int startingIndex = 74 + getOriginalLength(msg);
+        int endingIndex = 74 + 2*getOriginalLength(msg) - 1;
+
+        for(int i = 0; i < originalStrEnd.length; i++){
+            originalStrEnd[i] = msg[i+startingIndex];
+        }
+
+        return new String (originalStrEnd);
+        //STATIC
+    /*    byte [] originalStrEnd = new byte[getOriginalLength(msg)];
       //  int startingIndex = 74 + getOriginalLength(msg);
         int startingIndex = 74 + 256;
       //  int endingIndex = 74 + 2*getOriginalLength(msg) - 1;
@@ -72,16 +84,8 @@ public class MessageInterpreter {
             originalStrEnd[i] = msg[i+startingIndex];
         }
 
-        return new String (originalStrEnd);
-
-      /*  int startingIndex = 74 + ((msg.length - (32+1+40+1)) / 2);
-        int endingIndex = msg.length - 1;
-
-        byte [] originalStrEnd = new byte[endingIndex - startingIndex +1];
-        for(int i = 0; i < originalStrEnd.length; i++){
-            originalStrEnd[i] = msg[i+startingIndex];
-        }
-
         return new String (originalStrEnd);*/
+
+
     }
 }

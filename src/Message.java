@@ -53,17 +53,24 @@ public class Message {
     }
 
     public void setOriginalStrStart(String originalStrStart) {
-        byte [] bytes = originalStrStart.getBytes(StandardCharsets.UTF_8);
+        //DYNAIMC
+        this.originalStrStart = originalStrStart.getBytes(StandardCharsets.UTF_8);
+
+        //STATIC
+      /*  byte [] bytes = originalStrStart.getBytes(StandardCharsets.UTF_8);
        // this.originalStrStart = originalStrStart.getBytes(StandardCharsets.UTF_8);
         for(int i = 0; i < bytes.length; i ++)
-            this.originalStrStart[i] = bytes[i];
+            this.originalStrStart[i] = bytes[i];*/
     }
 
     public void setOriginalStrEnd(String originalStrEnd) {
-        byte [] bytes = originalStrEnd.getBytes(StandardCharsets.UTF_8);
+        //DYNAMIC
+        this.originalStrEnd = originalStrEnd.getBytes(StandardCharsets.UTF_8);
+        //STATIC
+       /* byte [] bytes = originalStrEnd.getBytes(StandardCharsets.UTF_8);
        // this.originalStrEnd = originalStrEnd.getBytes(StandardCharsets.UTF_8);;
         for(int i = 0; i < bytes.length; i ++)
-            this.originalStrEnd[i] = bytes[i];
+            this.originalStrEnd[i] = bytes[i];*/
     }
 
 

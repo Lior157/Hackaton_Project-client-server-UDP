@@ -1,7 +1,7 @@
-public class Main {
+public class Test {
     //testing
     public static void main(String[] args) {
-        String [] div = HelperFunctions.divideToDomains(230,4);
+     /*   String [] div = HelperFunctions.divideToDomains(10,7);
         for(String s : div)
             System.out.println(s);
 
@@ -14,7 +14,7 @@ public class Main {
         System.out.println(hash2);
         System.out.println(HelperFunctions.tryDeHash("somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycaaaa",
                 "somestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanycharssomestringwithmanymanyzzzzzz",
-                hash2, 10000));
+                hash2, 10000));*/
 
         Message msg = new Message();
         msg.setTeamName("DonaldCyber"); //size 32
