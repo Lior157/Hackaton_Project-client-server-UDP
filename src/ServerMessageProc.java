@@ -5,7 +5,7 @@ import java.net.InetAddress;
 public class ServerMessageProc implements Runnable{
     private DatagramSocket serverSocket ;
     private volatile DatagramPacket receivePacket;
-    private static final int maxTimeToCalculate = 12000;
+    private static final int maxTimeToCalculate = 120000;
 
     public ServerMessageProc(DatagramSocket serverSocket, DatagramPacket receivePacket) {
         this.serverSocket = serverSocket;

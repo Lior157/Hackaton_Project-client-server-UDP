@@ -5,13 +5,23 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 
 public class UDPclient {
-    private static final String TeamName = "DonaldCyber";
+    private static String TeamName = "DonaldCyber";
     private static String hashInput ;
     private static byte lengthInput ;
     private static LinkedList<DatagramPacket> recievedPockets = new LinkedList<>();
-    private static final int  serverResponseTimeout = 15000;
+    private static final int  serverResponseTimeout = 1000000;
     public static void main(String args[]) throws Exception
     {
+        if(TeamName.length()>32){
+            System.out.println("Team name illegal");
+            System.exit(0);
+        }else {
+            StringBuilder tName = new StringBuilder(TeamName);
+            for(int i = TeamName.length(); i < 32; i++){
+                tName.append(" ");
+            }
+            TeamName = tName.toString() ;
+        }
         byte[] sendData = new byte[1024];
         byte[] receiveData = new byte[1024];
 
@@ -88,12 +98,13 @@ public class UDPclient {
 
         System.out.println("sending discover messages to find servers...");
         long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis()-startTime < 1000) {
+        while (System.currentTimeMillis()-startTime < 10000) {
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
             try {
                 clientSocket.setSoTimeout(30);
                 clientSocket.receive(receivePacket);
-
+                System.out.println("recived message");
+                System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
 
                 if((byte) 2  == MessageInterpreter.getType(receivePacket.getData())) {
                     System.out.println("offer recieved");
@@ -139,8 +150,8 @@ public class UDPclient {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 clientSocket.setSoTimeout(3000);
                 clientSocket.receive(receivePacket);
-               // System.out.println("recived message");
-               // System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
+//                System.out.println("recived message");
+//                System.out.println("type of msg is "+MessageInterpreter.getType(receivePacket.getData()));
 
                 if ((byte) 4 == MessageInterpreter.getType(receivePacket.getData())) {
                     System.out.println("The input string is "+MessageInterpreter.getOriginalStrStart(receivePacket.getData()));

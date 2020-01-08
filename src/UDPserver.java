@@ -9,8 +9,7 @@ public class UDPserver {
     public static void main(String args[]) throws Exception
     {
         DatagramSocket serverSocket = new DatagramSocket(3117, InetAddress.getByName("0.0.0.0"));
-        byte[] receiveData = new byte[1024];
-        byte[] sendData = new byte[1024];
+        byte[] receiveData = new byte[600];
         ExecutorService tpex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
         while(true)
@@ -23,15 +22,6 @@ public class UDPserver {
 //            System.out.println(b[b.length-1] );
             ServerMessageProc serverMessageProc = new ServerMessageProc(serverSocket , receivePacket);
             tpex.execute(new Thread(serverMessageProc));
-
-//            InetAddress IPAddress = receivePacket.getAddress();
-//            int port = receivePacket.getPort();
-//
-//            String capitalizedSentence = sentence.toUpperCase();
-//            sendData = capitalizedSentence.getBytes();
-//            DatagramPacket sendPacket =
-//                    new DatagramPacket(sendData, sendData.length, IPAddress, port);
-//            serverSocket.send(sendPacket);
 
         }
     }
